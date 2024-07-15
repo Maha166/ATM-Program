@@ -1,0 +1,87 @@
+class ATM:
+    def _init_(self, rupay_balance, visa_balance, mastercard_balance):
+        self.rupay_balance = rupay_balance
+        self.visa_balance = visa_balance
+        self.mastercard_balance = mastercard_balance
+        self.username = "user123"
+        self.password = "user123"
+    def authenticate_user(self, username, password):
+        return username == self.username and password == self.password
+    def check_balance(self, card_type):
+        if card_type == "rupay":
+            return f"Remaining balance for Rupay card: {self.rupay_balance} Rs"
+        elif card_type == "visa":
+            return f"Remaining balance for Visa card: {self.visa_balance} Rs"
+        elif card_type == "mastercard":
+            return f"Remaining balance for Mastercard: {self.mastercard_balance} Rs"
+        else:
+            return "Invalid card type."
+    def withdraw_cash(self, card_type, amount):
+        if card_type == "rupay":
+            if amount <= self.rupay_balance:
+                self.rupay_balance -= amount
+                return f"Withdrawal of {amount} Rs successful. Remaining balance: {self.rupay_balance} Rs"
+            else:
+                return "Insufficient funds in Rupay card. Please try a smaller amount."
+        elif card_type == "visa":
+            if amount <= self.visa_balance:
+                self.visa_balance -= amount
+                return f"Withdrawal of {amount} Rs successful. Remaining balance: {self.visa_balance} Rs"
+            else:
+                return "Insufficient funds in Visa card. Please try a smaller amount."
+        elif card_type == "mastercard":
+            if amount <= self.mastercard_balance:
+                self.mastercard_balance -= amount
+                return f"Withdrawal of {amount} Rs successful. Remaining balance: {self.mastercard_balance} Rs"
+            else:
+                return "Insufficient funds in Mastercard. Please try a smaller amount."
+        else:
+            return "Invalid card type."
+    def deposit_cash(self, card_type, amount):
+        if card_type == "rupay":
+            self.rupay_balance += amount
+            return f"Deposit of {amount} Rs successful. New balance: {self.rupay_balance} Rs"
+        elif card_type == "visa":
+            self.visa_balance += amount
+            return f"Deposit of {amount} Rs successful. New balance: {self.visa_balance} Rs"
+        elif card_type == "mastercard":
+            self.mastercard_balance += amount
+            return f"Deposit of {amount} Rs successful. New balance: {self.mastercard_balance} Rs"
+        else:
+            return "Invalid card type."
+    def mini_statement(self):
+        return "Mini statement: [Transaction 1, Transaction 2, Transaction 3]"
+    def renew_card(self):
+        return "Card renewed successfully."
+atm = ATM(2000, 5000, 8499)
+username = input("Enter username: ")
+password = input("Enter password: ")
+if atm.authenticate_user(username, password):
+    print("Authentication successful.")
+    card_type = input("Enter your card type (rupay/visa/mastercard): ")
+    if card_type in ["rupay", "visa", "mastercard"]:
+        print("Choose an option:")
+        print("1. Check Balance")
+        print("2. Withdraw Cash")
+        print("3. Deposit Cash")
+        print("4. Mini Statement")
+        print("5. Renew Card")
+        choice = int(input("Enter your choice: "))
+        if choice == 1:
+            print(atm.check_balance(card_type))
+        elif choice == 2:
+            amount = float(input("Enter amount to withdraw: "))
+            print(atm.withdraw_cash(card_type, amount))
+        elif choice == 3:
+            amount = float(input("Enter amount to deposit: "))
+            print(atm.deposit_cash(card_type, amount))
+        elif choice == 4:
+            print(atm.mini_statement())
+        elif choice == 5:
+            print(atm.renew_card())
+        else:
+            print("Invalid choice.")
+    else:
+        print("Invalid card type.")
+else:
+    print("Incorrect username or password. Please try again.")
